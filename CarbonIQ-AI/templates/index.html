@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarbonIQ AI | Campus Carbon Simulator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">C</div>
+    <div><strong>CarbonIQ AI</strong><small>Campus carbon intelligence</small></div>
+    <span class="demo-pill">HACKATHON DEMO</span>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">MEASURE · SIMULATE · IMPROVE</p>
+        <h1>Make every sustainability decision <span>count.</span></h1>
+        <p class="hero-copy">Explore estimated campus emissions, test possible changes, and get data-grounded recommendations.</p>
+      </div>
+      <div class="hero-icon">🌱</div>
+    </section>
+
+    <div class="notice"><strong>Demo data:</strong> Emission factors in this starter project are illustrative placeholders. Replace them with documented factors before using results as real-world estimates.</div>
+
+    <section class="metric-grid">
+      <article class="metric-card"><span>Estimated baseline</span><strong id="baselineTotal">—</strong><small>kg CO₂e / selected period</small></article>
+      <article class="metric-card"><span>Proposed scenario</span><strong id="scenarioTotal">—</strong><small>kg CO₂e / selected period</small></article>
+      <article class="metric-card"><span>Estimated reduction</span><strong id="reduction">—</strong><small>Compared with baseline</small></article>
+      <article class="metric-card"><span>Target</span><strong>20%</strong><small>Adjust the scenario below</small></article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">01 / ACTIVITY DATA</p><h2>Campus inputs</h2></div><span class="panel-icon">⚡</span></div>
+        <label for="electricity">Electricity (kWh per day) <output id="electricityOut">500</output></label>
+        <input id="electricity" type="range" min="0" max="1500" step="10" value="500">
+        <label for="carKm">Car travel (vehicle-km per day) <output id="carKmOut">100</output></label>
+        <input id="carKm" type="range" min="0" max="1000" step="10" value="100">
+        <label for="motorcycleKm">Motorcycle travel (vehicle-km per day) <output id="motorcycleKmOut">150</output></label>
+        <input id="motorcycleKm" type="range" min="0" max="1000" step="10" value="150">
+        <label for="busKm">Bus travel (passenger-km per day) <output id="busKmOut">300</output></label>
+        <input id="busKm" type="range" min="0" max="2000" step="25" value="300">
+        <label for="wasteKg">Waste (kg per day) <output id="wasteKgOut">100</output></label>
+        <input id="wasteKg" type="range" min="0" max="500" step="5" value="100">
+        <div class="button-row">
+          <button id="applyBtn" class="primary">Calculate baseline</button>
+          <button id="resetBtn" class="secondary">Reset</button>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">02 / WHAT-IF SIMULATOR</p><h2>Test an improvement</h2></div><span class="panel-icon">🧪</span></div>
+        <p class="muted">Choose a simulated electricity reduction. Other activity inputs remain unchanged.</p>
+        <label for="saving">Electricity reduction <output id="savingOut">20%</output></label>
+        <input id="saving" type="range" min="0" max="60" step="5" value="20">
+        <div class="scenario-result">
+          <span>Electricity after change</span>
+          <strong id="newElectricity">400 kWh/day</strong>
+        </div>
+        <div class="chart-wrap"><canvas id="comparisonChart" aria-label="Baseline and proposed emissions comparison"></canvas></div>
+        <p id="scenarioMessage" class="muted" aria-live="polite">Adjust the slider to compare scenarios.</p>
+      </article>
+    </section>
+
+    <section class="content-grid lower-grid">
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">03 / AI ADVISOR</p><h2>Recommended actions</h2></div><span class="panel-icon">✦</span></div>
+        <p class="muted">These rule-based recommendations are available without an external AI API. You can connect a Generative AI model later.</p>
+        <ul id="recommendations" class="recommendation-list"><li>Calculating recommendations…</li></ul>
+      </article>
+
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">04 / COMPUTER VISION</p><h2>Vehicle image analysis</h2></div><span class="panel-icon">📷</span></div>
+        <p class="muted">Upload a parking image to count supported road-user categories with a pretrained model.</p>
+        <form id="visionForm">
+          <input id="visionImage" name="image" type="file" accept="image/png,image/jpeg,image/webp" required>
+          <button class="primary" type="submit">Analyze image</button>
+        </form>
+        <div id="visionResult" class="vision-result" aria-live="polite">Computer Vision status will appear here.</div>
+        <p class="tiny">Image counts alone do not establish emissions. Travel distance and vehicle details are needed for an estimate.</p>
+      </article>
+    </section>
+
+    <footer>CarbonIQ AI · Prototype with simulated inputs · Validate emission factors before real-world use</footer>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
